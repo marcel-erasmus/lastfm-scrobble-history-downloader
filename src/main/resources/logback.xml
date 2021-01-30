@@ -1,0 +1,3 @@
+<configuration>
+    <logger name="com.jayway.jsonpath" level="INFO"/>
+</configuration>
