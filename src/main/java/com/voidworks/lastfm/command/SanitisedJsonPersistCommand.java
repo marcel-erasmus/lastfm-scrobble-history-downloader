@@ -12,25 +12,24 @@ public class SanitisedJsonPersistCommand extends AbstractPersistCommand {
 
     public void execute() {
         LastfmServiceResponse response = getServiceResponse(user, page, pageSize);
-
         if (response.getCode() != 200) {
             return;
         }
 
-        String fileData = new SanitisedContentGenerator().generateContent(
-                "{\"scrobbles\":[",
-                "]}",
-                ",",
-                new ScrobbleJsonFormatter(),
-                response.getJson());
-
-        persistFileContent(fileData, ".json");
-
-        if (response.getPage() < response.getTotalPages()) {
-            setNext(new SanitisedJsonPersistCommand(directory, user, response.getPage() + 1, pageSize));
-        }
-
+        persistFileContent(generateFileContent(response.getJson()), ".json");
+        queueChainedCommand(response.getPage(), response.getTotalPages());
         printProgressMessage(response.getTotalPages());
     }
 
+    @Override
+    String generateFileContent(String json) {
+        return new SanitisedContentGenerator().generateContent("{\"scrobbles\":[", "]}", ",", new ScrobbleJsonFormatter(), json);
+    }
+
+    @Override
+    void queueChainedCommand(int page, int totalPages) {
+        if (page < totalPages) {
+            setNext(new SanitisedJsonPersistCommand(directory, user, page + 1, pageSize));
+        }
+    }
 }

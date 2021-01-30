@@ -2,9 +2,6 @@ package com.voidworks.lastfm.command;
 
 import com.voidworks.lastfm.service.response.LastfmServiceResponse;
 
-import java.nio.file.Files;
-import java.nio.file.Paths;
-
 public class VerbatimPersistCommand extends AbstractPersistCommand {
 
     public VerbatimPersistCommand(String directory, String user, int page, int pageSize) {
@@ -14,18 +11,24 @@ public class VerbatimPersistCommand extends AbstractPersistCommand {
     @Override
     public void execute() {
         LastfmServiceResponse response = getServiceResponse(user, page, pageSize);
-
         if (response.getCode() != 200) {
             return;
         }
 
-        persistFileContent(response.getJson(), ".json");
-
-        if (response.getPage() < response.getTotalPages()) {
-            setNext(new VerbatimPersistCommand(directory, user, response.getPage() + 1, pageSize));
-        }
-
+        persistFileContent(generateFileContent(response.getJson()), ".json");
+        queueChainedCommand(response.getPage(), response.getTotalPages());
         printProgressMessage(response.getTotalPages());
     }
 
+    @Override
+    String generateFileContent(String json) {
+        return json;
+    }
+
+    @Override
+    void queueChainedCommand(int page, int totalPages) {
+        if (page < totalPages) {
+            setNext(new VerbatimPersistCommand(directory, user, page + 1, pageSize));
+        }
+    }
 }

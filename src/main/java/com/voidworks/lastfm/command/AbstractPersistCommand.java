@@ -38,6 +38,8 @@ public abstract class AbstractPersistCommand extends AbstractChainedCommand<Abst
         return response;
     }
 
+    abstract String generateFileContent(String json);
+
     void persistFileContent(String fileContent, String fileExtension) {
         String path = String.format("%s\\lastfm_scrobbles_page_%s%s", directory, page, fileExtension);
         try {
@@ -46,6 +48,8 @@ public abstract class AbstractPersistCommand extends AbstractChainedCommand<Abst
             printMessage(e.getMessage());
         }
     }
+
+    abstract void queueChainedCommand(int page, int totalPages);
 
     void printProgressMessage(int totalPages) {
         printMessage(String.format("Processed page %s of %s (%.2f%%)", page, totalPages, (double) page / totalPages * 100));

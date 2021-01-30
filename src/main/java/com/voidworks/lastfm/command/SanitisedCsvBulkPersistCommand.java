@@ -4,9 +4,13 @@ import com.voidworks.lastfm.command.generator.SanitisedContentGenerator;
 import com.voidworks.lastfm.formatter.ScrobbleCsvFormatter;
 import com.voidworks.lastfm.service.response.LastfmServiceResponse;
 
-public class SanitisedCsvPersistCommand extends AbstractPersistCommand {
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 
-    public SanitisedCsvPersistCommand(String directory, String user, int page, int pageSize) {
+public class SanitisedCsvBulkPersistCommand extends AbstractPersistCommand {
+
+    public SanitisedCsvBulkPersistCommand(String directory, String user, int page, int pageSize) {
         super(directory, user, page, pageSize);
     }
 
@@ -27,9 +31,22 @@ public class SanitisedCsvPersistCommand extends AbstractPersistCommand {
     }
 
     @Override
+    void persistFileContent(String fileContent, String fileExtension) {
+        try (
+                FileWriter fileWriter = new FileWriter(String.format("%s\\lastfm_scrobbles%s", directory, fileExtension), true);
+                BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+                PrintWriter printWriter = new PrintWriter(bufferedWriter);
+        ) {
+            printWriter.print(fileContent);
+        } catch (Exception e) {
+            printError(e.getMessage());
+        }
+    }
+
+    @Override
     void queueChainedCommand(int page, int totalPages) {
         if (page < totalPages) {
-            setNext(new SanitisedCsvPersistCommand(directory, user, page + 1, pageSize));
+            setNext(new SanitisedCsvBulkPersistCommand(directory, user, page + 1, pageSize));
         }
     }
 }
