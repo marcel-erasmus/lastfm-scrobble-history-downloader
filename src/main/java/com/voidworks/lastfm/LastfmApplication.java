@@ -10,6 +10,8 @@ import com.voidworks.lastfm.prompt.UserPrompt;
 import com.voidworks.lastfm.prompt.enumerator.DownloadOptionType;
 import com.voidworks.lastfm.prompt.invoker.PromptInvoker;
 
+import java.util.Arrays;
+
 public class LastfmApplication {
 
     public static void main(String[] args) {
@@ -23,16 +25,23 @@ public class LastfmApplication {
         promptInvoker.execute(directoryPrompt);
         String directory = directoryPrompt.getData();
 
-        PageSizePrompt pageSizePrompt = new PageSizePrompt();
-        promptInvoker.execute(pageSizePrompt);
-        int pageSize = Integer.parseInt(pageSizePrompt.getData());
-
         DownloadOptionPrompt downloadOptionPrompt = new DownloadOptionPrompt();
         promptInvoker.execute(downloadOptionPrompt);
         DownloadOptionType downloadOption = DownloadOptionType.of(Integer.parseInt(downloadOptionPrompt.getData()));
 
         if (downloadOption == null) {
             return;
+        }
+
+        int pageSize = 1000;
+        if (Arrays.asList(
+                DownloadOptionType.SANITISED_CSV_PERSIST,
+                DownloadOptionType.SANITISED_JSON_PERSIST,
+                DownloadOptionType.VERBATIM_PERSIST)
+                .contains(downloadOption)) {
+            PageSizePrompt pageSizePrompt = new PageSizePrompt();
+            promptInvoker.execute(pageSizePrompt);
+            pageSize = Integer.parseInt(pageSizePrompt.getData());
         }
 
         AbstractPersistCommand persistCommand = PersistCommandFactory.getPersistCommand(
