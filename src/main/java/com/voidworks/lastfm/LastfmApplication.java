@@ -1,19 +1,18 @@
 package com.voidworks.lastfm;
 
 import com.voidworks.lastfm.command.AbstractPersistCommand;
-import com.voidworks.lastfm.command.SanitisedCsvPersistCommand;
-import com.voidworks.lastfm.command.SanitisedJsonPersistCommand;
+import com.voidworks.lastfm.command.factory.PersistCommandFactory;
 import com.voidworks.lastfm.command.invoker.ChainedCommandInvoker;
 import com.voidworks.lastfm.prompt.DirectoryPrompt;
 import com.voidworks.lastfm.prompt.DownloadOptionPrompt;
 import com.voidworks.lastfm.prompt.PageSizePrompt;
 import com.voidworks.lastfm.prompt.UserPrompt;
+import com.voidworks.lastfm.prompt.enumerator.DownloadOptionType;
 import com.voidworks.lastfm.prompt.invoker.PromptInvoker;
-import com.voidworks.lastfm.command.VerbatimPersistCommand;
 
 public class LastfmApplication {
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         PromptInvoker promptInvoker = new PromptInvoker();
 
         UserPrompt userPrompt = new UserPrompt();
@@ -30,19 +29,23 @@ public class LastfmApplication {
 
         DownloadOptionPrompt downloadOptionPrompt = new DownloadOptionPrompt();
         promptInvoker.execute(downloadOptionPrompt);
-        int downloadOption = Integer.parseInt(downloadOptionPrompt.getData());
+        DownloadOptionType downloadOption = DownloadOptionType.of(Integer.parseInt(downloadOptionPrompt.getData()));
 
-        ChainedCommandInvoker persistCommandInvoker = new ChainedCommandInvoker();
-
-        AbstractPersistCommand persistCommand;
-        if (downloadOption == 1) {
-            persistCommand = new VerbatimPersistCommand(directory, user, 1, pageSize);
-        } else if (downloadOption == 2) {
-            persistCommand = new SanitisedJsonPersistCommand(directory, user, 1, pageSize);
-        } else {
-            persistCommand = new SanitisedCsvPersistCommand(directory, user, 1, pageSize);
+        if (downloadOption == null) {
+            return;
         }
-        persistCommandInvoker.execute(persistCommand);
+
+        AbstractPersistCommand persistCommand = PersistCommandFactory.getPersistCommand(
+                downloadOption,
+                directory,
+                user,
+                1,
+                pageSize);
+
+        if (persistCommand != null) {
+            ChainedCommandInvoker persistCommandInvoker = new ChainedCommandInvoker();
+            persistCommandInvoker.execute(persistCommand);
+        }
     }
 
 }

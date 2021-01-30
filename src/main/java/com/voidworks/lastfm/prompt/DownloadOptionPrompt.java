@@ -1,7 +1,9 @@
 package com.voidworks.lastfm.prompt;
 
 import com.voidworks.lastfm.communication.Communicator;
+import com.voidworks.lastfm.prompt.enumerator.DownloadOptionType;
 
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class DownloadOptionPrompt extends AbstractPrompt<String> implements Communicator {
@@ -20,7 +22,7 @@ public class DownloadOptionPrompt extends AbstractPrompt<String> implements Comm
 
     @Override
     public boolean isValid() {
-        int downloadMode;
+        Integer downloadMode;
         try {
             downloadMode = Integer.parseInt(getData());
         } catch (Exception e) {
@@ -28,7 +30,7 @@ public class DownloadOptionPrompt extends AbstractPrompt<String> implements Comm
             return false;
         }
 
-        if (downloadMode < 1 || downloadMode > 3) {
+        if (Arrays.asList(DownloadOptionType.values()).contains(downloadMode)) {
             printError("Only 1, 2 or 3 is accepted for this prompt.");
             return false;
         }
