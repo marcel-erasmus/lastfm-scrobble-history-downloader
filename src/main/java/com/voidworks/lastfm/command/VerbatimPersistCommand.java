@@ -1,34 +1,47 @@
 package com.voidworks.lastfm.command;
 
+import com.voidworks.lastfm.command.bean.PersistCommandBean;
 import com.voidworks.lastfm.service.response.LastfmServiceResponse;
+import lombok.Getter;
+import lombok.Setter;
 
-public class VerbatimPersistCommand extends AbstractPersistCommand {
+@Getter
+@Setter
+public class VerbatimPersistCommand extends ChainedPersistCommand {
 
-    public VerbatimPersistCommand(String directory, String user, int page, int pageSize) {
-        super(directory, user, page, pageSize);
+    public VerbatimPersistCommand(PersistCommandBean data) {
+        super(data);
     }
 
     @Override
     public void execute() {
-        LastfmServiceResponse response = getServiceResponse(user, page, pageSize);
+        LastfmServiceResponse response = getServiceResponse(data);
         if (response.getCode() != 200) {
             return;
         }
 
-        persistFileContent(generateFileContent(response.getJson()), ".json");
-        queueChainedCommand(response.getPage(), response.getTotalPages());
-        printProgressMessage(response.getTotalPages());
+        persistContent(data, generateContent(response.getJson()), ".json");
+        queueNext(response.getPage(), response.getTotalPages());
+        printProgressMessage(data.getPage(), response.getTotalPages());
     }
 
     @Override
-    String generateFileContent(String json) {
+    public String generateContent(String json) {
         return json;
     }
 
     @Override
-    void queueChainedCommand(int page, int totalPages) {
+    protected void queueNext(int page, int totalPages) {
         if (page < totalPages) {
-            setNext(new VerbatimPersistCommand(directory, user, page + 1, pageSize));
+            PersistCommandBean commandBean = PersistCommandBean.builder()
+                    .directory(data.getDirectory())
+                    .user(data.getUser())
+                    .page(data.getPage() + 1)
+                    .pageSize(data.getPageSize())
+                    .build();
+
+            setNext(new VerbatimPersistCommand(commandBean));
         }
     }
+
 }
