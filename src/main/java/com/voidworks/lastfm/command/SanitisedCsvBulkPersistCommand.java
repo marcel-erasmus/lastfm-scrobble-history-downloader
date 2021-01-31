@@ -1,39 +1,44 @@
 package com.voidworks.lastfm.command;
 
+import com.voidworks.lastfm.command.bean.PersistCommandBean;
 import com.voidworks.lastfm.command.generator.SanitisedContentGenerator;
 import com.voidworks.lastfm.formatter.ScrobbleCsvFormatter;
 import com.voidworks.lastfm.service.response.LastfmServiceResponse;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 
-public class SanitisedCsvBulkPersistCommand extends AbstractPersistCommand {
+@Getter
+@Setter
+public class SanitisedCsvBulkPersistCommand extends ChainedPersistCommand {
 
-    public SanitisedCsvBulkPersistCommand(String directory, String user, int page, int pageSize) {
-        super(directory, user, page, pageSize);
+    public SanitisedCsvBulkPersistCommand(PersistCommandBean data) {
+        super(data);
     }
 
     public void execute() {
-        LastfmServiceResponse response = getServiceResponse(user, page, pageSize);
+        LastfmServiceResponse response = getServiceResponse(data);
         if (response.getCode() != 200) {
             return;
         }
 
-        persistFileContent(generateFileContent(response.getJson()), ".csv");
-        queueChainedCommand(response.getPage(), response.getTotalPages());
-        printProgressMessage(response.getTotalPages());
+        persistContent(data, generateContent(response.getJson()), ".csv");
+        queueNext(response.getPage(), response.getTotalPages());
+        printProgressMessage(data.getPage(), response.getTotalPages());
     }
 
     @Override
-    String generateFileContent(String json) {
+    public String generateContent(String json) {
         return new SanitisedContentGenerator().generateContent("", "", System.lineSeparator(), new ScrobbleCsvFormatter(), json);
     }
 
     @Override
-    void persistFileContent(String fileContent, String fileExtension) {
+    public void persistContent(PersistCommandBean data, String fileContent, String fileExtension) {
         try (
-                FileWriter fileWriter = new FileWriter(String.format("%s\\lastfm_scrobbles%s", directory, fileExtension), true);
+                FileWriter fileWriter = new FileWriter(String.format("%s\\lastfm_scrobbles%s", data.getDirectory(), fileExtension), true);
                 BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
                 PrintWriter printWriter = new PrintWriter(bufferedWriter);
         ) {
@@ -44,9 +49,17 @@ public class SanitisedCsvBulkPersistCommand extends AbstractPersistCommand {
     }
 
     @Override
-    void queueChainedCommand(int page, int totalPages) {
+    protected void queueNext(int page, int totalPages) {
         if (page < totalPages) {
-            setNext(new SanitisedCsvBulkPersistCommand(directory, user, page + 1, pageSize));
+            PersistCommandBean commandBean = PersistCommandBean.builder()
+                    .directory(data.getDirectory())
+                    .user(data.getUser())
+                    .page(data.getPage() + 1)
+                    .pageSize(data.getPageSize())
+                    .build();
+
+            setNext(new SanitisedCsvBulkPersistCommand(commandBean));
         }
     }
+
 }

@@ -1,8 +1,9 @@
 package com.voidworks.lastfm;
 
-import com.voidworks.lastfm.command.AbstractPersistCommand;
+import com.voidworks.lastfm.command.ChainedPersistCommand;
+import com.voidworks.lastfm.command.bean.PersistCommandBean;
 import com.voidworks.lastfm.command.factory.PersistCommandFactory;
-import com.voidworks.lastfm.command.invoker.ChainedCommandInvoker;
+import com.voidworks.lastfm.command.invoker.ChainedPersistCommandInvoker;
 import com.voidworks.lastfm.prompt.DirectoryPrompt;
 import com.voidworks.lastfm.prompt.DownloadOptionPrompt;
 import com.voidworks.lastfm.prompt.PageSizePrompt;
@@ -44,15 +45,17 @@ public class LastfmApplication {
             pageSize = Integer.parseInt(pageSizePrompt.getData());
         }
 
-        AbstractPersistCommand persistCommand = PersistCommandFactory.getPersistCommand(
-                downloadOption,
-                directory,
-                user,
-                1,
-                pageSize);
+        PersistCommandBean persistCommandBean = PersistCommandBean.builder()
+                .directory(directory)
+                .user(user)
+                .page(1)
+                .pageSize(pageSize)
+                .build();
+
+        ChainedPersistCommand persistCommand = PersistCommandFactory.getPersistCommand(downloadOption, persistCommandBean);
 
         if (persistCommand != null) {
-            ChainedCommandInvoker persistCommandInvoker = new ChainedCommandInvoker();
+            ChainedPersistCommandInvoker persistCommandInvoker = new ChainedPersistCommandInvoker();
             persistCommandInvoker.execute(persistCommand);
         }
     }

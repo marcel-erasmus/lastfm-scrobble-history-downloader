@@ -9,9 +9,9 @@ public class DownloadOptionPrompt extends AbstractPrompt<String> implements Comm
     @Override
     public void execute() {
         printMessage("\nYou can choose to download your scrobble data as follows:");
-        printMessage("1) Download a \"sanitised\" large dump file version in CSV format with quotes as text qualifiers.");
-        printMessage("2) Download a \"sanitised\" paginated version in CSV format with quotes as text qualifiers.");
-        printMessage("3) Download a \"sanitised\" paginated version in JSON format.");
+        printMessage("1) Slimmed-down scrobble data stored in a single large file (CSV format, quotes as text qualifiers).");
+        printMessage("2) Slimmed-down scrobble data stored in various paginated files (CSV format, quotes as text qualifiers).");
+        printMessage("3) Slimmed-down scrobble data stored in various paginated files (JSON format).");
         printMessage("4) Download verbatim as the Last.fm API returns it in JSON format (paginated).");
         printMessage("\nThe download might take a while depending on how much scrobble history needs to be downloaded.");
         printMessage("\nPlease enter the number (1, 2, 3 or 4) representing how you want your scrobble data downloaded:");
