@@ -1,20 +1,19 @@
-package com.voidworks.lastfm.command;
+package com.voidworks.lastfm.command.module.persist;
 
-import com.voidworks.lastfm.command.bean.PersistCommandBean;
-import com.voidworks.lastfm.command.generator.SanitisedContentGenerator;
-import com.voidworks.lastfm.formatter.ScrobbleJsonFormatter;
+import com.voidworks.lastfm.command.module.persist.bean.PersistCommandBean;
 import com.voidworks.lastfm.service.response.LastfmServiceResponse;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class SanitisedJsonPersistCommand extends ChainedPersistCommand {
+public class VerbatimPersistCommand extends ChainedPersistCommand {
 
-    public SanitisedJsonPersistCommand(PersistCommandBean data) {
+    public VerbatimPersistCommand(PersistCommandBean data) {
         super(data);
     }
 
+    @Override
     public void execute() {
         LastfmServiceResponse response = getServiceResponse(data);
         if (response.getCode() != 200) {
@@ -28,7 +27,7 @@ public class SanitisedJsonPersistCommand extends ChainedPersistCommand {
 
     @Override
     public String generateContent(String json) {
-        return new SanitisedContentGenerator().generateContent("{\"scrobbles\":[", "]}", ",", new ScrobbleJsonFormatter(), json);
+        return json;
     }
 
     @Override
@@ -41,7 +40,7 @@ public class SanitisedJsonPersistCommand extends ChainedPersistCommand {
                     .pageSize(data.getPageSize())
                     .build();
 
-            setNext(new SanitisedJsonPersistCommand(commandBean));
+            setNext(new VerbatimPersistCommand(commandBean));
         }
     }
 

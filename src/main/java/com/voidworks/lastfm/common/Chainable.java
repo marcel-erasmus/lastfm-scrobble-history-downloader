@@ -1,4 +1,4 @@
-package com.voidworks.lastfm.command;
+package com.voidworks.lastfm.common;
 
 public interface Chainable<T> {
     T getNext();

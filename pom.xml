@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.voidworks</groupId>
-    <artifactId>lastfm</artifactId>
+    <artifactId>lastfm-fm-scrobble-history-downloader</artifactId>
     <version>1.0</version>
-    <name>lastfm</name>
+    <name>lastfm-fm-scrobble-history-downloader</name>
     <description>Simple downloader for Last.fm scrobble data.</description>
     <properties>
         <java.version>1.8</java.version>

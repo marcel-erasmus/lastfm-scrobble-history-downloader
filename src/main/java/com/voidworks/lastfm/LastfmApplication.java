@@ -1,15 +1,15 @@
 package com.voidworks.lastfm;
 
-import com.voidworks.lastfm.command.ChainedPersistCommand;
-import com.voidworks.lastfm.command.bean.PersistCommandBean;
-import com.voidworks.lastfm.command.factory.PersistCommandFactory;
-import com.voidworks.lastfm.command.invoker.ChainedPersistCommandInvoker;
-import com.voidworks.lastfm.prompt.DirectoryPrompt;
-import com.voidworks.lastfm.prompt.DownloadOptionPrompt;
-import com.voidworks.lastfm.prompt.PageSizePrompt;
-import com.voidworks.lastfm.prompt.UserPrompt;
-import com.voidworks.lastfm.prompt.enumerator.DownloadOptionType;
-import com.voidworks.lastfm.prompt.invoker.PromptInvoker;
+import com.voidworks.lastfm.command.module.persist.ChainedPersistCommand;
+import com.voidworks.lastfm.command.module.persist.bean.PersistCommandBean;
+import com.voidworks.lastfm.command.module.persist.factory.PersistCommandFactory;
+import com.voidworks.lastfm.command.module.persist.invoker.ChainedPersistCommandInvoker;
+import com.voidworks.lastfm.command.module.prompt.DirectoryPrompt;
+import com.voidworks.lastfm.command.module.prompt.DownloadOptionPrompt;
+import com.voidworks.lastfm.command.module.prompt.PageSizePrompt;
+import com.voidworks.lastfm.command.module.prompt.UserPrompt;
+import com.voidworks.lastfm.command.module.prompt.enumerator.DownloadOptionType;
+import com.voidworks.lastfm.command.module.prompt.invoker.PromptInvoker;
 
 import java.util.Arrays;
 

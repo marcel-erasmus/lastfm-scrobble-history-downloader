@@ -1,8 +1,8 @@
 package com.voidworks.lastfm;
 
-import com.voidworks.lastfm.command.generator.SanitisedContentGenerator;
 import com.voidworks.lastfm.formatter.ScrobbleCsvFormatter;
 import com.voidworks.lastfm.formatter.ScrobbleJsonFormatter;
+import com.voidworks.lastfm.generator.SanitisedContentGenerator;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;

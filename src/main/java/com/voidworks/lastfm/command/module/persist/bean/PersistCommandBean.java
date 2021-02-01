@@ -1,4 +1,4 @@
-package com.voidworks.lastfm.command.bean;
+package com.voidworks.lastfm.command.module.persist.bean;
 
 import lombok.Builder;
 import lombok.Getter;

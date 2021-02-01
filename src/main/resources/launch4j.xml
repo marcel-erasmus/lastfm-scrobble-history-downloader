@@ -2,8 +2,8 @@
 <launch4jConfig>
   <dontWrapJar>false</dontWrapJar>
   <headerType>console</headerType>
-  <jar>C:\_dev\java\spring\lastfm\target\lastfm-1.0-jar-with-dependencies.jar</jar>
-  <outfile>C:\_dev\java\spring\lastfm\target\lastfm-scrobble-history-downloader.exe</outfile>
+  <jar></jar>
+  <outfile></outfile>
   <errTitle>Java (minimum 1.8.0) is required to run this tool.</errTitle>
   <cmdLine></cmdLine>
   <chdir>.</chdir>
@@ -13,7 +13,7 @@
   <stayAlive>true</stayAlive>
   <restartOnCrash>false</restartOnCrash>
   <manifest></manifest>
-  <icon>C:\Users\anyone\Desktop\icon.ico</icon>
+  <icon></icon>
   <singleInstance>
     <mutexName>LastfmScrobbleHistoryDownloader</mutexName>
     <windowTitle>Lastfm Scrobble History Downloader</windowTitle>

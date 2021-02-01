@@ -1,16 +1,15 @@
-package com.voidworks.lastfm.prompt.enumerator;
+package com.voidworks.lastfm.command.module.prompt.enumerator;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-@Getter
 @AllArgsConstructor
+@Getter
 public enum DownloadOptionType {
     SANITISED_CSV_BULK_PERSIST(1),
     SANITISED_CSV_PERSIST(2),
     SANITISED_JSON_PERSIST(2),
     VERBATIM_PERSIST(4);
-
 
     private int code;
 

@@ -1,8 +1,8 @@
-package com.voidworks.lastfm.command;
+package com.voidworks.lastfm.command.module.persist;
 
-import com.voidworks.lastfm.command.bean.PersistCommandBean;
-import com.voidworks.lastfm.command.generator.SanitisedContentGenerator;
+import com.voidworks.lastfm.command.module.persist.bean.PersistCommandBean;
 import com.voidworks.lastfm.formatter.ScrobbleCsvFormatter;
+import com.voidworks.lastfm.generator.SanitisedContentGenerator;
 import com.voidworks.lastfm.service.response.LastfmServiceResponse;
 import lombok.Getter;
 import lombok.Setter;

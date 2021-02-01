@@ -1,6 +1,6 @@
-package com.voidworks.lastfm.prompt.invoker;
+package com.voidworks.lastfm.command.module.prompt.invoker;
 
-import com.voidworks.lastfm.prompt.AbstractPrompt;
+import com.voidworks.lastfm.command.module.prompt.AbstractPrompt;
 
 public class PromptInvoker {
     public <T> void execute(AbstractPrompt<T> prompt) {

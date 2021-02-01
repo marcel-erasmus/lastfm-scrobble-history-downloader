@@ -1,10 +1,8 @@
-package com.voidworks.lastfm.prompt;
-
-import com.voidworks.lastfm.communication.Communicator;
+package com.voidworks.lastfm.command.module.prompt;
 
 import java.util.Scanner;
 
-public class PageSizePrompt extends AbstractPrompt<String> implements Communicator {
+public class PageSizePrompt extends AbstractPrompt<String> {
     @Override
     public void execute() {
         printMessage("\nPlease specify the page size that you want for your downloads (min 50 max 1000):");

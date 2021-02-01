@@ -1,13 +1,11 @@
-package com.voidworks.lastfm.prompt;
-
-import com.voidworks.lastfm.communication.Communicator;
+package com.voidworks.lastfm.command.module.prompt;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Scanner;
 
-public class DirectoryPrompt extends AbstractPrompt<String> implements Communicator {
+public class DirectoryPrompt extends AbstractPrompt<String> {
     @Override
     public void execute() {
         printMessage("\nPlease enter the name of the destination directory:");

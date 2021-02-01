@@ -1,4 +1,4 @@
-package com.voidworks.lastfm.command.generator;
+package com.voidworks.lastfm.generator;
 
 import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.JsonPath;

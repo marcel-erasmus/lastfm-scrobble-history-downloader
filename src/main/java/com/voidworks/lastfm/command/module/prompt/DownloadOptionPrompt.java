@@ -1,11 +1,10 @@
-package com.voidworks.lastfm.prompt;
+package com.voidworks.lastfm.command.module.prompt;
 
-import com.voidworks.lastfm.communication.Communicator;
-import com.voidworks.lastfm.prompt.enumerator.DownloadOptionType;
+import com.voidworks.lastfm.command.module.prompt.enumerator.DownloadOptionType;
 
 import java.util.Scanner;
 
-public class DownloadOptionPrompt extends AbstractPrompt<String> implements Communicator {
+public class DownloadOptionPrompt extends AbstractPrompt<String> {
     @Override
     public void execute() {
         printMessage("\nYou can choose to download your scrobble data as follows:");

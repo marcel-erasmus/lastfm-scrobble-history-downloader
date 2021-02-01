@@ -1,6 +1,6 @@
-package com.voidworks.lastfm.command.invoker;
+package com.voidworks.lastfm.command.module.persist.invoker;
 
-import com.voidworks.lastfm.command.ChainedPersistCommand;
+import com.voidworks.lastfm.command.module.persist.ChainedPersistCommand;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor

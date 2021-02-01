@@ -1,8 +1,8 @@
-package com.voidworks.lastfm.command.factory;
+package com.voidworks.lastfm.command.module.persist.factory;
 
-import com.voidworks.lastfm.command.*;
-import com.voidworks.lastfm.command.bean.PersistCommandBean;
-import com.voidworks.lastfm.prompt.enumerator.DownloadOptionType;
+import com.voidworks.lastfm.command.module.persist.*;
+import com.voidworks.lastfm.command.module.persist.bean.PersistCommandBean;
+import com.voidworks.lastfm.command.module.prompt.enumerator.DownloadOptionType;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 

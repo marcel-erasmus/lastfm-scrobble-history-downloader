@@ -1,6 +1,7 @@
-package com.voidworks.lastfm.command;
+package com.voidworks.lastfm.command.module.persist;
 
-import com.voidworks.lastfm.command.bean.PersistCommandBean;
+import com.voidworks.lastfm.command.Command;
+import com.voidworks.lastfm.command.module.persist.bean.PersistCommandBean;
 import com.voidworks.lastfm.communication.Communicator;
 import com.voidworks.lastfm.service.LastfmService;
 import com.voidworks.lastfm.service.response.LastfmServiceResponse;
