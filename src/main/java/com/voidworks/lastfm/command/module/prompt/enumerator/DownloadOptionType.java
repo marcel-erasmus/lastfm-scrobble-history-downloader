@@ -6,6 +6,7 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public enum DownloadOptionType {
+
     SANITISED_CSV_BULK_PERSIST(1),
     SANITISED_CSV_PERSIST(2),
     SANITISED_JSON_PERSIST(2),
@@ -22,4 +23,5 @@ public enum DownloadOptionType {
             default: return null;
         }
     }
+
 }

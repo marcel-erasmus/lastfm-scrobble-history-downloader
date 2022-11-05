@@ -7,8 +7,29 @@ import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 import com.voidworks.lastfm.communication.Communicator;
 import com.voidworks.lastfm.service.response.LastfmServiceResponse;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
-public class LastfmService implements Communicator {
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public class LastfmService {
+
+    private static LastfmService instance = null;
+
+    private static synchronized void createInstance() {
+        if (instance == null) {
+            instance = new LastfmService();
+        }
+    }
+
+    public static LastfmService getInstance() {
+        if (instance == null) {
+            createInstance();
+        }
+
+        return instance;
+    }
+
+    private static final OkHttpClient okHttpClient = new OkHttpClient();
 
     public LastfmServiceResponse getScrobblesByUserAndPage(String user, int page, int pageSize) {
         String url = buildUrl(user, page, pageSize);
@@ -19,7 +40,7 @@ public class LastfmService implements Communicator {
         try {
             jsonResponse = response != null ? response.body().string() : "";
         } catch (Exception e) {
-            printError(e.getMessage());
+            Communicator.printError(e.getMessage());
         }
 
         if (response == null || response.code() != 200) {
@@ -50,17 +71,15 @@ public class LastfmService implements Communicator {
     }
 
     private Response performHttpRequest(String url) {
-        OkHttpClient client = new OkHttpClient();
-
         Request request = new Request.Builder()
                 .url(url)
                 .build();
 
         Response response = null;
         try {
-            response = client.newCall(request).execute();
+            response = okHttpClient.newCall(request).execute();
         } catch (Exception e) {
-            printError(e.getMessage());
+            Communicator.printError(e.getMessage());
         }
 
         return response;

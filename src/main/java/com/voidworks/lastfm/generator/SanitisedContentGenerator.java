@@ -12,6 +12,7 @@ import java.time.format.DateTimeFormatter;
 
 @NoArgsConstructor
 public class SanitisedContentGenerator {
+
     public String generateContent(String contentPrefix, String contentSuffix, String contentSeparator, ScrobbleFormatter formatter, String json) {
         DocumentContext documentContext = JsonPath.parse(json);
         JSONArray jsonScrobbles = documentContext.read("$['recenttracks']['track'][*]");
@@ -25,7 +26,7 @@ public class SanitisedContentGenerator {
                     .title(scrobbleContext.read("$['name']"))
                     .artist(scrobbleContext.read("$['artist']['#text']"))
                     .album(scrobbleContext.read("$['album']['#text']"))
-                    .scrobbleDate(LocalDateTime.parse(scrobbleContext.read("$['date']['#text']"), DateTimeFormatter.ofPattern("dd MMM yyyy, HH:mm")))
+                    .scrobbleDate(getScrobbleDate(scrobbleContext))
                     .build();
 
             content.append(formatter.format(scrobble));
@@ -36,4 +37,13 @@ public class SanitisedContentGenerator {
 
         return content.toString();
     }
+
+    private LocalDateTime getScrobbleDate(DocumentContext scrobbleContext) {
+        try {
+            return LocalDateTime.parse(scrobbleContext.read("$['date']['#text']"), DateTimeFormatter.ofPattern("dd MMM yyyy, HH:mm"));
+        } catch (Exception e) {
+            return LocalDateTime.now();
+        }
+    }
+
 }

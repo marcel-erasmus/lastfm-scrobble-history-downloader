@@ -1,6 +1,7 @@
 package com.voidworks.lastfm.command.module.persist;
 
 import com.voidworks.lastfm.command.module.persist.bean.PersistCommandBean;
+import com.voidworks.lastfm.communication.Communicator;
 import com.voidworks.lastfm.formatter.ScrobbleCsvFormatter;
 import com.voidworks.lastfm.generator.SanitisedContentGenerator;
 import com.voidworks.lastfm.service.response.LastfmServiceResponse;
@@ -44,7 +45,7 @@ public class SanitisedCsvBulkPersistCommand extends ChainedPersistCommand {
         ) {
             printWriter.print(fileContent);
         } catch (Exception e) {
-            printError(e.getMessage());
+            Communicator.printError(e.getMessage());
         }
     }
 

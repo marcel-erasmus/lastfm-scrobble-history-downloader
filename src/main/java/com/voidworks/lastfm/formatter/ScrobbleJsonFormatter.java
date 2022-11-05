@@ -8,7 +8,8 @@ import com.voidworks.lastfm.model.Scrobble;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
-public class ScrobbleJsonFormatter implements ScrobbleFormatter, Communicator {
+public class ScrobbleJsonFormatter implements ScrobbleFormatter {
+
     public String format(Scrobble data) {
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new JavaTimeModule());
@@ -18,9 +19,10 @@ public class ScrobbleJsonFormatter implements ScrobbleFormatter, Communicator {
         try {
             result = mapper.writeValueAsString(data);
         } catch (Exception e) {
-            printError(e.getMessage());
+            Communicator.printError(e.getMessage());
         }
 
         return result;
     }
+
 }

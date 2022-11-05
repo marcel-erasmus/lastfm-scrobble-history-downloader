@@ -1,5 +1,6 @@
 package com.voidworks.lastfm.command.module.prompt;
 
+import com.voidworks.lastfm.communication.Communicator;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,9 +11,10 @@ import java.util.Scanner;
 @Getter
 @Setter
 public class UserPrompt extends AbstractPrompt<String> {
+
     @Override
     public void execute() {
-        printMessage("Please enter your Last.fm username:");
+        Communicator.printMessage("Please enter your Last.fm username:");
         setData(new Scanner(System.in).next());
     }
 
@@ -20,4 +22,5 @@ public class UserPrompt extends AbstractPrompt<String> {
     public boolean isValid() {
         return getData() != null;
     }
+
 }

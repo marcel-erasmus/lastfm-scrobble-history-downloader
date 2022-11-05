@@ -8,8 +8,10 @@ import lombok.Setter;
 @Getter
 @Setter
 public class PersistCommandBean {
+
     private String directory;
     private String user;
     private int page;
     private int pageSize;
+
 }

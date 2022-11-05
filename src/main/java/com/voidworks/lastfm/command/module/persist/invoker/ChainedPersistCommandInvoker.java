@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 public class ChainedPersistCommandInvoker {
+
     public void execute(ChainedPersistCommand command) {
         do {
             if (command.getNext() != null) {
@@ -12,6 +13,7 @@ public class ChainedPersistCommandInvoker {
             }
 
             command.execute();
-        } while(command.getNext() != null);
+        } while (command.getNext() != null);
     }
+
 }

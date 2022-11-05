@@ -8,8 +8,10 @@ import java.time.LocalDateTime;
 @Builder
 @Getter
 public class Scrobble {
+
     private String title;
     private String artist;
     private String album;
     private LocalDateTime scrobbleDate;
+
 }

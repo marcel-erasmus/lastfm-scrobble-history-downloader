@@ -9,14 +9,14 @@ import com.voidworks.lastfm.service.response.LastfmServiceResponse;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-public interface PersistCommand extends Command, Communicator {
+public interface PersistCommand extends Command {
 
     default LastfmServiceResponse getServiceResponse(PersistCommandBean data) {
-        LastfmService lastfmService = new LastfmService();
+        LastfmService lastfmService = LastfmService.getInstance();
         LastfmServiceResponse response = lastfmService.getScrobblesByUserAndPage(data.getUser(), data.getPage(), data.getPageSize());
 
         if (response.getCode() != 200) {
-            printError(String.format("An anomaly has occurred (STATUS CODE %s).", response.getCode()));
+            Communicator.printError(String.format("An anomaly has occurred (STATUS CODE %s).", response.getCode()));
         }
 
         return response;
@@ -29,12 +29,12 @@ public interface PersistCommand extends Command, Communicator {
         try {
             Files.write(Paths.get(path), fileContent.getBytes());
         } catch (Exception e) {
-            printMessage(e.getMessage());
+            Communicator.printMessage(e.getMessage());
         }
     }
 
     default void printProgressMessage(int page, int totalPages) {
-        printMessage(String.format("Processed page %s of %s (%.2f%%)", page, totalPages, (double) page / totalPages * 100));
+        Communicator.printMessage(String.format("Processed page %s of %s (%.2f%%)", page, totalPages, (double) page / totalPages * 100));
     }
 
 }

@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 public class ScrobbleCsvFormatter implements ScrobbleFormatter {
+
     @Override
     public String format(Scrobble data) {
         return "\"" + data.getTitle() + "\"," +
@@ -12,4 +13,5 @@ public class ScrobbleCsvFormatter implements ScrobbleFormatter {
                "\"" + data.getAlbum() + "\"," +
                "\"" + data.getScrobbleDate() + "\"";
     }
+
 }
